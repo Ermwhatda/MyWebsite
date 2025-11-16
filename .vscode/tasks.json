@@ -1,0 +1,31 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Build selected game",
+      "type": "shell",
+      "command": "bash",
+      "args": [
+        "-c",
+        "source ~/emsdk/emsdk_env.sh && emcc ${input:gameFile} -s WASM=1 -s EXPORTED_FUNCTIONS='[\"_main\",\"_movePlayer\",\"_getPlayerX\",\"_getPlayerY\"]' -s EXPORTED_RUNTIME_METHODS='[\"cwrap\"]' -o ${input:outputFile}"
+      ],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "problemMatcher": ["$gcc"]
+    }
+  ],
+  "inputs": [
+    {
+      "id": "gameFile",
+      "type": "promptString",
+      "description": "Path to C++ file to compile (e.g., projects/game/game.cpp)"
+    },
+    {
+      "id": "outputFile",
+      "type": "promptString",
+      "description": "Path for output JS file (e.g., projects/game/game.js)"
+    }
+  ]
+}

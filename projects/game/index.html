@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>WASM Game Demo</title>
+  <style>
+    canvas {
+      background-color: black;
+      border: 1px solid white;
+    }
+    button {
+      font-size: 16px;
+      margin: 5px;
+    }
+  </style>
+</head>
+<body>
+  <h1>WASM Game Demo</h1>
+  <canvas id="gameCanvas" width="400" height="400"></canvas>
+  <div>
+    <button onclick="Module._movePlayer(-5,0)">Left</button>
+    <button onclick="Module._movePlayer(5,0)">Right</button>
+    <button onclick="Module._movePlayer(0,-5)">Up</button>
+    <button onclick="Module._movePlayer(0,5)">Down</button>
+  </div>
+
+  <!-- Load the compiled WASM module -->
+  <script src="game.js"></script>
+
+  <script>
+    const canvas = document.getElementById('gameCanvas');
+    const ctx = canvas.getContext('2d');
+
+    // Draw loop (~60fps)
+    function draw() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      // Get player position from WASM
+      const x = Module._getPlayerX();
+      const y = Module._getPlayerY();
+
+      // Draw player as red square
+      ctx.fillStyle = 'red';
+      ctx.fillRect(x, y, 20, 20);
+    }
+
+    setInterval(draw, 16);
+  </script>
+</body>
+</html>
